@@ -25,9 +25,8 @@ int main() {
 
         file = fopen(filename.c_str(),"r");
         while (fgets(content, sizeof(content), file) != NULL)
-        
-        string temp(content);
-        words.push_back(string(content));
+        {string temp(content);
+        words.push_back(string(content));}
         fclose(file);
     }
 
