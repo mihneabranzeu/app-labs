@@ -60,6 +60,14 @@ int main(int argc, char const *argv[]) {
     int tids[no_threads];
     
     // TODO
+    for (int i = 0; i < no_threads; i++) {
+        tids[i] = i;
+        pthread_create(&threads[i], NULL, do_sum, &tids[i]);
+    }
+
+    for (int i = 0; i < no_threads; i++) {
+        pthread_join(threads[i], NULL);
+    }
 
     for (int i = 0; i < size; i++) {
         total_sum += results[i];

@@ -44,11 +44,11 @@ void queue_wait_workers(struct queue_struct *queue, int nthreads)
 
 int optimal_number_of_threads() {
     // TODO - puneti numarul de threads
-    return 0;
+    return 8;
 }
 int optimal_queue_length() {
     // TODO - lungimea cozii
-    return 0;
+    return 10000;
 }
 
 void process_tasks() {
@@ -100,6 +100,9 @@ void process_tasks() {
 
 int get_work(struct q_work_struct* w, int pos) {
     // TODO - atribuiti pozitia, a[poz] si b[poz] la structura - vedeti in queue.h
+    w.element_a = a[pos];
+    w.element_b = b[pos];
+    w->pos = pos;
     
     return pos < SIZE ? 1 : 0;
 }
@@ -140,7 +143,7 @@ void worker() {
     * will never return from one of the calls to dequeue();
     */
     for (;;) {
-        /* obtain the next work request */
+    /* obtain the next work request */
         ptr = dequeue(&thr_queue);
         if (ptr == NULL) {
             fprintf(stderr, "dequeue() error\n");
@@ -151,6 +154,7 @@ void worker() {
         /* ... */
 
         // TODO - aici se va face adunarea dintre a[poz] si b[poz] (c[poz] = a[poz] + b[poz])
+        c[ptr->poz] = ptr->element_a + ptr->element_b;
 
         /* release memory for work request */
         free((void *)ptr);
