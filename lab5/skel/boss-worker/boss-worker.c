@@ -154,7 +154,7 @@ void worker() {
         /* ... */
 
         // TODO - aici se va face adunarea dintre a[poz] si b[poz] (c[poz] = a[poz] + b[poz])
-        c[ptr->poz] = ptr->element_a + ptr->element_b;
+        c[ptr->pos] = ptr->element_a + ptr->element_b;
 
         /* release memory for work request */
         free((void *)ptr);
