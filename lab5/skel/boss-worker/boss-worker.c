@@ -100,8 +100,8 @@ void process_tasks() {
 
 int get_work(struct q_work_struct* w, int pos) {
     // TODO - atribuiti pozitia, a[poz] si b[poz] la structura - vedeti in queue.h
-    w.element_a = a[pos];
-    w.element_b = b[pos];
+    w->element_a = a[pos];
+    w->element_b = b[pos];
     w->pos = pos;
     
     return pos < SIZE ? 1 : 0;
