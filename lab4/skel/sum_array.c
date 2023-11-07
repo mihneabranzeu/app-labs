@@ -34,9 +34,8 @@ int main(int argc, char **argv) {
         arr = create_array(chunks_per_proc * proc);
 
         // Read the coefficient
-        printf("Enter the coefficient: ");
+        printf("Enter the coefficient:\n");
         scanf("%d", &coefficient);
-        printf("\n");
     }
 
     // We allocate memory for the array that each process receives
@@ -67,6 +66,22 @@ int main(int argc, char **argv) {
 
     // We print the sum computed by each process
     printf("Process %d computed sum %d\n", rank, sum);
+    int final_sum = 0;
+
+    // We gather the sums computed by each process in the root process using MPI_Send and recv
+    for (int i = 0; i < proc; ++i) {
+        if (rank == i) {
+            MPI_Send(&sum, 1, MPI_INT, ROOT, 0, MPI_COMM_WORLD);
+        }
+
+        if (rank == ROOT) {
+            MPI_Recv(&a, 1, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            final_sum += a;   
+        }
+        
+    }
+
+    printf("The final sum is %d\n", final_sum);
 
     // We free the memory allocated for the array
     free(process_arr);
