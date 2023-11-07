@@ -1,2 +1,2 @@
 build:
-    mpicc send_recv.c -o send_recv
+	mpicc send_recv.c -o send_recv

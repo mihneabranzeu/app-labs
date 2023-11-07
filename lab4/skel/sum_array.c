@@ -19,7 +19,7 @@ int* create_array (int size) {
 int main(int argc, char **argv) {
     int rank, proc, a;
     int *arr, *process_arr;
-    int sum;
+    int sum, coefficient;
 
     // Initialize the processes
     MPI_Init(&argc, &argv);
@@ -32,6 +32,11 @@ int main(int argc, char **argv) {
     // The root process creates the array that it sends to all processes
     if (rank == ROOT) {
         arr = create_array(chunks_per_proc * proc);
+
+        // Read the coefficient
+        printf("Enter the coefficient: ");
+        scanf("%d", &coefficient);
+        printf("\n");
     }
 
     // We allocate memory for the array that each process receives
@@ -47,12 +52,18 @@ int main(int argc, char **argv) {
     // We receive the array from the root process using MPI_Recv
     MPI_Recv(process_arr, chunks_per_proc, MPI_INT, ROOT, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
+    // We broadcast the coefficient from the root process to all processes
+    MPI_Bcast(&coefficient, 1, MPI_INT, ROOT, MPI_COMM_WORLD);
+
 
     // We compute the sum of the elements in the array
     sum = 0;
     for (int i = 0; i < chunks_per_proc; ++i) {
         sum += process_arr[i];
     }
+
+    // We multiply the sum by the coefficient
+    sum *= coefficient;
 
     // We print the sum computed by each process
     printf("Process %d computed sum %d\n", rank, sum);
