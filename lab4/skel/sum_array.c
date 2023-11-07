@@ -81,7 +81,8 @@ int main(int argc, char **argv) {
         
     }
 
-    printf("The final sum is %d\n", final_sum);
+    if (rank == ROOT)
+        printf("The final sum is %d\n", final_sum);
 
     // We free the memory allocated for the array
     free(process_arr);
